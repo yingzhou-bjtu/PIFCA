@@ -1,0 +1,7 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it using the metadata in this file."
+title: "PIFCA: Optimizing Federated Clustering with Gradient Space Search in Non-IID Data"
+authors:
+  - family-names: "Zhou"
+    given-names: "Ying"
+repository-code: "https://github.com/yingzhou-bjtu/PIFCA"
