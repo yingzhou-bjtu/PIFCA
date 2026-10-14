@@ -31,6 +31,15 @@ def main() -> int:
     if not reporter.tensor_name:
         raise AssertionError("MemReporter did not register model parameters")
 
+    reporter.device_mapping["cpu"].append(object())
+    try:
+        reporter.get_stats()
+    except TypeError as exc:
+        if "torch.Tensor" not in str(exc):
+            raise AssertionError(f"unexpected TypeError message: {exc}") from exc
+    else:
+        raise AssertionError("MemReporter accepted a non-tensor memory entry")
+
     print("PIFCA_MEM_UTILS_VALIDATION_PASS")
     return 0
 

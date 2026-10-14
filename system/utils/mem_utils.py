@@ -105,8 +105,6 @@ class MemReporter():
                 - stat: a tuple containing (tensor_name, tensor_size,
             tensor_numel, tensor_memory)
             """
-            assert isinstance(tensor, torch.Tensor)
-
             name = self._get_tensor_name(tensor)
             if tensor.is_sparse:
                 indices_stat = get_tensor_stat(tensor._indices())
@@ -145,6 +143,11 @@ class MemReporter():
         for device, tensors in self.device_mapping.items():
             tensor_stats = []
             for tensor in tensors:
+                if not isinstance(tensor, torch.Tensor):
+                    raise TypeError(
+                        "device_mapping must contain torch.Tensor entries, "
+                        f"got {type(tensor).__name__}"
+                    )
 
                 if tensor.numel() == 0:
                     continue

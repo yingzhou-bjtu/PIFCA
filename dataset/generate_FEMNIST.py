@@ -129,7 +129,10 @@ def generate_dataset(dataset, meta_path, save_path,  num_clients, num_classes, n
    
         X[i] = dataset.images.repeat(1,3,1,1).cpu().detach().numpy()
         y[i] = dataset.targets.cpu().detach().numpy()
-        assert len(X[i]) == len(y[i]) , 'the length of images must be equal to the length of targets '
+        if len(X[i]) != len(y[i]):
+            raise ValueError(
+                f"client {i} has {len(X[i])} images but {len(y[i])} targets"
+            )
         statistic[i] = (int(i), len(X[i]))
         
     train_data, test_data = split_data(X, y)

@@ -83,6 +83,7 @@ Validate the lightweight memory reporter input boundary:
 
 ```bash
 python3 scripts/test_mem_utils_validation.py
+python3 -O scripts/test_mem_utils_validation.py
 ```
 
 Validate the lightweight language utility input boundary:
@@ -109,6 +110,20 @@ Validate configurable server checkpoint/result storage paths:
 
 ```bash
 python3 scripts/test_server_storage_paths.py
+```
+
+Validate lightweight train-model input boundaries:
+
+```bash
+python3 scripts/test_trainmodel_validation.py
+python3 -O scripts/test_trainmodel_validation.py
+```
+
+Validate lightweight FEMNIST generator input boundaries:
+
+```bash
+python3 scripts/test_femnist_generator_validation.py
+python3 -O scripts/test_femnist_generator_validation.py
 ```
 
 ## Running Experiments 🧪🧪🧪
