@@ -85,6 +85,12 @@ Validate the lightweight memory reporter input boundary:
 python3 scripts/test_mem_utils_validation.py
 ```
 
+Validate the lightweight language utility input boundary:
+
+```bash
+python3 scripts/test_language_utils_validation.py
+```
+
 ## Running Experiments 🧪🧪🧪
 
 ### PIFCA

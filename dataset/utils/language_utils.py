@@ -3,8 +3,6 @@
 import re
 import numpy as np
 import json
-from torchtext.data.utils import get_tokenizer
-from torchtext.vocab import build_vocab_from_iterator
 
 
 # ------------------------
@@ -140,25 +138,36 @@ def val_to_vec(size, val):
 
     Args:
         size: Size of vector.
-        val: Integer in range [0, size].
+        val: Integer in range [0, size).
     Returns:
          vec: one-hot vector with a 1 in the val element.
     """
-    assert 0 <= val < size
+    if not isinstance(size, (int, np.integer)) or isinstance(size, bool):
+        raise TypeError("size must be an integer")
+    if size <= 0:
+        raise ValueError("size must be positive")
+    if not isinstance(val, (int, np.integer)) or isinstance(val, bool):
+        raise TypeError("val must be an integer")
+    if not 0 <= val < size:
+        raise ValueError(f"val must be in range [0, {size})")
+
     vec = [0 for _ in range(size)]
     vec[int(val)] = 1
     return vec
 
 def tokenizer(text, max_len, max_tokens=32000):
-    tokenizer = get_tokenizer('basic_english')
+    from torchtext.data.utils import get_tokenizer
+    from torchtext.vocab import build_vocab_from_iterator
+
+    basic_tokenizer = get_tokenizer('basic_english')
     vocab = build_vocab_from_iterator(
-        map(tokenizer, iter(text)), 
+        map(basic_tokenizer, iter(text)),
         specials = ['<pad>', 'cls', '<unk>', '<eos>'],
         special_first = True, 
         max_tokens = max_tokens 
     )
     vocab.set_default_index(vocab['<unk>'])
-    text_pipeline = lambda x: vocab(tokenizer(x))
+    text_pipeline = lambda x: vocab(basic_tokenizer(x))
 
     text_list = []
     for t in text:
