@@ -155,9 +155,8 @@ class pFedMe(Server):
 
     def save_results(self):
         algo = self.dataset + "_" + self.algorithm
-        result_path = "../results/"
-        if not os.path.exists(result_path):
-            os.makedirs(result_path)
+        if not os.path.exists(self.results_dir):
+            os.makedirs(self.results_dir)
 
         # if (len(self.rs_test_acc) & len(self.rs_train_acc) & len(self.rs_train_loss)):
         #     algo1 = algo + "_" + self.goal + "_" + str(self.times)
@@ -168,7 +167,7 @@ class pFedMe(Server):
 
         if (len(self.rs_test_acc_per)):
             algo2 = algo + "_" + self.goal + "_" + str(self.times)
-            with h5py.File(result_path + "{}.h5".format(algo2), 'w') as hf:
+            with h5py.File(self.result_file_path(algo2), 'w') as hf:
                 hf.create_dataset('rs_test_acc', data=self.rs_test_acc_per)
                 hf.create_dataset('rs_train_acc', data=self.rs_train_acc_per)
                 hf.create_dataset('rs_train_loss', data=self.rs_train_loss_per)

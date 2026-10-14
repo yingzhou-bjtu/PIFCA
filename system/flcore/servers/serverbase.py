@@ -59,6 +59,8 @@ class Server(object):
         self.goal = args.goal
         self.time_threthold = args.time_threthold
         self.save_folder_name = args.save_folder_name
+        self.model_dir = args.model_dir
+        self.results_dir = args.results_dir
         self.top_cnt = args.top_cnt
         self.auto_break = args.auto_break
 
@@ -507,34 +509,35 @@ class Server(object):
         for server_param, client_param in zip(self.global_model.parameters(), client_model.parameters()):
             server_param.data += client_param.data.clone() * w
 
+    def model_checkpoint_path(self):
+        return os.path.join(self.model_dir, self.dataset, self.algorithm + "_server" + ".pt")
+
+    def result_file_path(self, file_stem):
+        return os.path.join(self.results_dir, "{}.h5".format(file_stem))
+
     def save_global_model(self):
-        model_path = os.path.join("models", self.dataset)
+        model_path = os.path.dirname(self.model_checkpoint_path())
         if not os.path.exists(model_path):
             os.makedirs(model_path)
-        model_path = os.path.join(model_path, self.algorithm + "_server" + ".pt")
-        torch.save(self.global_model, model_path)
+        torch.save(self.global_model, self.model_checkpoint_path())
 
     def load_model(self):
-        model_path = os.path.join("models", self.dataset)
-        model_path = os.path.join(model_path, self.algorithm + "_server" + ".pt")
+        model_path = self.model_checkpoint_path()
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"model file not found: {model_path}")
         self.global_model = torch.load(model_path)
 
     def model_exists(self):
-        model_path = os.path.join("models", self.dataset)
-        model_path = os.path.join(model_path, self.algorithm + "_server" + ".pt")
-        return os.path.exists(model_path)
+        return os.path.exists(self.model_checkpoint_path())
         
     def save_results(self):
         algo = self.dataset + "_" + self.algorithm
-        result_path = "../results/"
-        if not os.path.exists(result_path):
-            os.makedirs(result_path)
+        if not os.path.exists(self.results_dir):
+            os.makedirs(self.results_dir)
 
         if (len(self.rs_test_acc)):
             algo = algo + "_" + self.goal + "_" + str(self.times)
-            file_path = result_path + "{}.h5".format(algo)
+            file_path = self.result_file_path(algo)
             print("File path: " + file_path)
 
             with h5py.File(file_path, 'w') as hf:

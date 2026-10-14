@@ -67,6 +67,7 @@ def main() -> int:
     expect_error(RuntimeError, "uploaded_models", server.aggregate_parameters)
 
     server = bare_server()
+    server.model_dir = "models"
     server.dataset = "missing_dataset"
     server.algorithm = "missing_algorithm"
     expected_model_path = os.path.join("models", server.dataset, f"{server.algorithm}_server.pt")

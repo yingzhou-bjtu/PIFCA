@@ -456,6 +456,10 @@ if __name__ == "__main__":
     parser.add_argument('-eg', "--eval_gap", type=int, default=1,
                         help="Rounds gap for evaluation")
     parser.add_argument('-sfn', "--save_folder_name", type=str, default='items')
+    parser.add_argument("--model_dir", type=str, default="models",
+                        help="Directory for saved server checkpoints")
+    parser.add_argument("--results_dir", type=str, default="../results",
+                        help="Directory for saved experiment result files")
     parser.add_argument('-ab', "--auto_break", type=bool, default=False)
     parser.add_argument('-dlg', "--dlg_eval", type=bool, default=False)
     parser.add_argument('-dlgg', "--dlg_gap", type=int, default=100)
