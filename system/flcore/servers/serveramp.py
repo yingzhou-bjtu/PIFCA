@@ -21,7 +21,7 @@ import time
 import numpy as np
 import math
 from flcore.clients.clientamp import clientAMP
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 from utils.dlg import DLG
 
@@ -87,7 +87,7 @@ class FedAMP(Server):
 
     # To save GPU memory in simulation, no persistent model is kept on the server.
     def send_models(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         if len(self.uploaded_ids) > 0:
             for c in self.selected_clients:

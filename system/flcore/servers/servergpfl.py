@@ -20,7 +20,7 @@ import torch
 import torch.nn as nn
 import time
 from flcore.clients.clientgpfl import *
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 
 
@@ -88,7 +88,7 @@ class GPFL(Server):
 
 
     def receive_models(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         active_train_samples = 0
         for client in self.selected_clients:

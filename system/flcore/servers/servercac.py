@@ -74,7 +74,8 @@ class FedCAC(Server):
         Overview:
             Aggregating customized global models for clients to collaborate critical parameters.
         """
-        assert type(self.args.beta) == int and self.args.beta >= 1
+        if not isinstance(self.args.beta, int) or self.args.beta < 1:
+            raise ValueError("args.beta must be an integer greater than or equal to 1")
         num_clients = len(self.selected_clients)
         overlap_buffer = [[] for i in range(num_clients)]
 

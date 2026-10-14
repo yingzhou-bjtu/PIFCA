@@ -91,7 +91,7 @@ Validate the lightweight language utility input boundary:
 python3 scripts/test_language_utils_validation.py
 ```
 
-Validate the lightweight server runtime state guards:
+Validate the lightweight server runtime state guards for base and subclass servers:
 
 ```bash
 python3 scripts/test_serverbase_runtime_guards.py

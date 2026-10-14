@@ -19,7 +19,7 @@ import copy
 import torch
 import time
 from flcore.clients.clientcp import *
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from utils.data_utils import read_client_data
 from threading import Thread
 
@@ -55,7 +55,7 @@ class FedCP(Server):
 
 
     def send_models(self):
-        assert (len(self.clients) > 0)
+        require_non_empty_collection("clients", self.clients)
 
         for client in self.clients:
             client.set_parameters(self.global_modules)
@@ -65,7 +65,7 @@ class FedCP(Server):
             server_param.data += client_param.data.clone() * w
 
     def aggregate_parameters(self):
-        assert (len(self.uploaded_models) > 0)
+        require_non_empty_collection("uploaded_models", self.uploaded_models)
 
         self.global_modules = copy.deepcopy(self.uploaded_models[0])
         for param in self.global_modules.parameters():
@@ -122,7 +122,7 @@ class FedCP(Server):
 
 
     def receive_models(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         active_train_samples = 0
         for client in self.selected_clients:

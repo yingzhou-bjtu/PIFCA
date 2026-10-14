@@ -18,7 +18,7 @@
 import torch
 import time
 from flcore.clients.clientapple import clientAPPLE
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 from utils.dlg import DLG
 from utils.data_utils import read_client_data
@@ -96,7 +96,7 @@ class APPLE(Server):
         
 
     def send_models(self):
-        assert (len(self.clients) > 0)
+        require_non_empty_collection("clients", self.clients)
 
         self.client_models = [c.model_c for c in self.clients]
         for client in self.clients:

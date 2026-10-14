@@ -18,7 +18,7 @@
 import time
 import torch
 from flcore.clients.clientphp import clientPHP
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 
 
@@ -79,7 +79,7 @@ class FedPHP(Server):
 
 
     def send_models(self, R):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         for client in self.clients:
             start_time = time.time()

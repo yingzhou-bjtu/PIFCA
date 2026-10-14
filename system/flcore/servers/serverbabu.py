@@ -18,7 +18,7 @@
 import time
 import random
 from flcore.clients.clientbabu import clientBABU
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 
 
@@ -90,7 +90,7 @@ class FedBABU(Server):
             self.evaluate()
 
     def receive_models(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         active_clients = random.sample(
             self.selected_clients, int((1-self.client_drop_rate) * self.current_num_join_clients))

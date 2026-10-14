@@ -17,7 +17,7 @@
 
 import time
 from flcore.clients.clientala import clientALA
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 
 
@@ -85,7 +85,7 @@ class FedALA(Server):
 
 
     def send_models(self):
-        assert (len(self.clients) > 0)
+        require_non_empty_collection("clients", self.clients)
 
         for client in self.clients:
             client.local_initialization(self.global_model)

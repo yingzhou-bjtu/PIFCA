@@ -19,7 +19,7 @@ import copy
 import time
 import torch
 from flcore.clients.clientdyn import clientDyn
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 
 
@@ -97,7 +97,7 @@ class FedDyn(Server):
             server_param.data += client_param.data.clone() / self.num_join_clients
 
     def aggregate_parameters(self):
-        assert (len(self.uploaded_models) > 0)
+        require_non_empty_collection("uploaded_models", self.uploaded_models)
 
         self.global_model = copy.deepcopy(self.uploaded_models[0])
         for param in self.global_model.parameters():
@@ -110,7 +110,7 @@ class FedDyn(Server):
             server_param.data -= (1/self.alpha) * state_param
 
     def update_server_state(self):
-        assert (len(self.uploaded_models) > 0)
+        require_non_empty_collection("uploaded_models", self.uploaded_models)
 
         model_delta = copy.deepcopy(self.uploaded_models[0])
         for param in model_delta.parameters():

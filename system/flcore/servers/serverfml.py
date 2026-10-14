@@ -19,7 +19,7 @@ import copy
 import random
 import time
 from flcore.clients.clientfml import clientFML
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 
 
@@ -86,7 +86,7 @@ class FML(Server):
             self.evaluate()
 
     def receive_models(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         active_clients = random.sample(
             self.selected_clients, int((1-self.client_drop_rate) * self.current_num_join_clients))
@@ -104,7 +104,7 @@ class FML(Server):
                 self.uploaded_models.append(client.global_model)
 
     def aggregate_parameters(self):
-        assert (len(self.uploaded_models) > 0)
+        require_non_empty_collection("uploaded_models", self.uploaded_models)
 
         self.global_model = copy.deepcopy(self.uploaded_models[0])
         for param in self.global_model.parameters():

@@ -23,7 +23,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from flcore.clients.clientgen import clientGen
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 
 
@@ -120,7 +120,7 @@ class FedGen(Server):
 
 
     def send_models(self):
-        assert (len(self.clients) > 0)
+        require_non_empty_collection("clients", self.clients)
 
         for client in self.clients:
             start_time = time.time()
@@ -131,7 +131,7 @@ class FedGen(Server):
             client.send_time_cost['total_cost'] += 2 * (time.time() - start_time)
 
     def receive_models(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         active_clients = random.sample(
             self.selected_clients, int((1-self.client_drop_rate) * self.current_num_join_clients))

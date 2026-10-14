@@ -19,7 +19,7 @@ import time
 import torch
 import torch.nn as nn
 from flcore.clients.clientgh import clientGH
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 from torch.utils.data import DataLoader
 
@@ -85,7 +85,7 @@ class FedGH(Server):
 
 
     def send_models(self):
-        assert (len(self.clients) > 0)
+        require_non_empty_collection("clients", self.clients)
 
         for client in self.clients:
             start_time = time.time()
@@ -96,7 +96,7 @@ class FedGH(Server):
             client.send_time_cost['total_cost'] += 2 * (time.time() - start_time)
 
     def receive_protos(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         self.uploaded_ids = []
         self.uploaded_protos = []

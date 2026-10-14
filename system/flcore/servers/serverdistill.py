@@ -17,7 +17,7 @@
 
 import time
 from flcore.clients.clientdistill import clientDistill
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 from collections import defaultdict
 
@@ -77,7 +77,7 @@ class FedDistill(Server):
         
 
     def send_logits(self):
-        assert (len(self.clients) > 0)
+        require_non_empty_collection("clients", self.clients)
 
         for client in self.clients:
             start_time = time.time()
@@ -88,7 +88,7 @@ class FedDistill(Server):
             client.send_time_cost['total_cost'] += 2 * (time.time() - start_time)
 
     def receive_logits(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         self.uploaded_ids = []
         self.uploaded_logits = []

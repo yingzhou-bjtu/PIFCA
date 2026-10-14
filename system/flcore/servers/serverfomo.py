@@ -21,7 +21,7 @@ import copy
 import random
 import numpy as np
 from flcore.clients.clientfomo import clientFomo
-from flcore.servers.serverbase import Server
+from flcore.servers.serverbase import Server, require_non_empty_collection
 from threading import Thread
 from utils.dlg import DLG
 
@@ -84,7 +84,7 @@ class FedFomo(Server):
 
 
     def send_models(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
         for client in self.clients:
             start_time = time.time()
 
@@ -106,7 +106,7 @@ class FedFomo(Server):
             client.send_time_cost['total_cost'] += 2 * (time.time() - start_time)
 
     def receive_models(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         active_clients = random.sample(
             self.selected_clients, int((1-self.client_drop_rate) * self.current_num_join_clients))
