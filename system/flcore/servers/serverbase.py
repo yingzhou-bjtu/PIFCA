@@ -31,6 +31,11 @@ from sklearn.cluster import AgglomerativeClustering
 from sklearn.metrics.pairwise import cosine_similarity
 
 
+def require_non_empty_collection(field_name, values):
+    if len(values) == 0:
+        raise RuntimeError(f"{field_name} must not be empty")
+
+
 
 class Server(object):
     def __init__(self, args, times):
@@ -158,7 +163,7 @@ class Server(object):
         return selected_clients
 
     def send_models(self):
-        assert (len(self.clients) > 0)
+        require_non_empty_collection("clients", self.clients)
 
         for client in self.clients:
             start_time = time.time()
@@ -201,7 +206,7 @@ class Server(object):
         
 
     def receive_models(self):
-        assert (len(self.selected_clients) > 0)
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         active_clients = random.sample(
             self.selected_clients, int((1-self.client_drop_rate) * self.current_num_join_clients))
@@ -226,7 +231,7 @@ class Server(object):
 
     def receive_clu_models(self):
         """接收客户端模型，并按簇分类存储"""
-        assert len(self.selected_clients) > 0, "无客户端被选中"
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         # 筛选活跃客户端（考虑dropout）
         active_clients = random.sample(
@@ -261,7 +266,7 @@ class Server(object):
                 
     def clu_models(self):
         """接收客户端模型，并按簇分类存储"""
-        assert len(self.selected_clients) > 0, "无客户端被选中"
+        require_non_empty_collection("selected_clients", self.selected_clients)
 
         # 筛选活跃客户端（考虑dropout）
         active_clients = random.sample(
@@ -489,7 +494,7 @@ class Server(object):
     
 
     def aggregate_parameters(self):
-        assert (len(self.uploaded_models) > 0)
+        require_non_empty_collection("uploaded_models", self.uploaded_models)
 
         self.global_model = copy.deepcopy(self.uploaded_models[0])
         for param in self.global_model.parameters():
@@ -512,7 +517,8 @@ class Server(object):
     def load_model(self):
         model_path = os.path.join("models", self.dataset)
         model_path = os.path.join(model_path, self.algorithm + "_server" + ".pt")
-        assert (os.path.exists(model_path))
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(f"model file not found: {model_path}")
         self.global_model = torch.load(model_path)
 
     def model_exists(self):
@@ -963,7 +969,7 @@ class Server(object):
 
 
     def send_attenmodels(self,P):
-        assert (len(self.clients) > 0)
+        require_non_empty_collection("clients", self.clients)
 
         for i, client in enumerate(self.clients):
             start_time = time.time()

@@ -91,6 +91,13 @@ Validate the lightweight language utility input boundary:
 python3 scripts/test_language_utils_validation.py
 ```
 
+Validate the lightweight server runtime state guards:
+
+```bash
+python3 scripts/test_serverbase_runtime_guards.py
+python3 -O scripts/test_serverbase_runtime_guards.py
+```
+
 ## Running Experiments 🧪🧪🧪
 
 ### PIFCA
