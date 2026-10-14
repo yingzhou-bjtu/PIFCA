@@ -98,6 +98,13 @@ python3 scripts/test_serverbase_runtime_guards.py
 python3 -O scripts/test_serverbase_runtime_guards.py
 ```
 
+Validate the lightweight client runtime state guards:
+
+```bash
+python3 scripts/test_client_runtime_guards.py
+python3 -O scripts/test_client_runtime_guards.py
+```
+
 Validate configurable server checkpoint/result storage paths:
 
 ```bash

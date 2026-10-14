@@ -108,7 +108,8 @@ class clientAPPLE(Client):
             server_param.data += client_param.data.clone() * w
 
     def aggregate_parameters(self):
-        assert (len(self.model_cs) > 0)
+        if len(self.model_cs) == 0:
+            raise RuntimeError("model_cs must be set before clientAPPLE.aggregate_parameters()")
 
         for param in self.model.parameters():
             param.data = torch.zeros_like(param.data)

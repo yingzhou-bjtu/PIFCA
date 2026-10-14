@@ -49,7 +49,10 @@ class clientPCL(Client):
             for epoch in range(max_local_epochs):
                 global_protos_emb = []
                 for k in self.global_protos.keys():
-                    assert (type(self.global_protos[k]) != type([]))
+                    if isinstance(self.global_protos[k], list):
+                        raise RuntimeError(
+                            "global_protos entries must be aggregated before clientPCL.train()"
+                        )
                     global_protos_emb.append(self.global_protos[k])
                 global_protos_emb = torch.stack(global_protos_emb)
 
