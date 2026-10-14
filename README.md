@@ -66,11 +66,18 @@ To evaluate clustering performance without exposing real data:
 ├── dataset/           # Dataset generators and prepared experimental splits
 ├── docs/              # PFLlib-style project documentation pages
 ├── notebooks/         # PIFCA clustering and analysis notebooks
+├── scripts/           # Repository validation helpers
 └── system/            # PFLlib-based training and algorithm implementation
 ```
 
 The repository root keeps only project metadata, setup files, and primary
 documentation. Experiment media and notebooks are grouped by purpose.
+
+Validate the public repository layout:
+
+```bash
+python3 scripts/validate_layout.py
+```
 
 ## Running Experiments 🧪🧪🧪
 
