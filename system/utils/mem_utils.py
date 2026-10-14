@@ -53,7 +53,8 @@ class MemReporter():
 
         tensor_names = defaultdict(list)
         if model is not None:
-            assert isinstance(model, torch.nn.Module)
+            if not isinstance(model, torch.nn.Module):
+                raise TypeError(f"model must be a torch.nn.Module, got {type(model).__name__}")
             # for model with tying weight, multiple parameters may share
             # the same underlying tensor
             for name, param in model.named_parameters():

@@ -79,6 +79,12 @@ Validate the public repository layout:
 python3 scripts/validate_layout.py
 ```
 
+Validate the lightweight memory reporter input boundary:
+
+```bash
+python3 scripts/test_mem_utils_validation.py
+```
+
 ## Running Experiments 🧪🧪🧪
 
 ### PIFCA
