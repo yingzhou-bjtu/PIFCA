@@ -135,6 +135,10 @@ python3 scripts/test_arg_utils_validation.py
 Boolean experiment options accept explicit values such as `true`/`false`,
 `1`/`0`, `yes`/`no`, and `on`/`off`; unrecognized strings are rejected by
 argparse.
+Both main entry points also validate numeric experiment parameters after
+argparse conversion: counts must be true integers within their lower bounds,
+rates must be finite and in `[0, 1]`, and learning-rate or temperature fields
+must be finite and positive.
 
 ## Running Experiments 🧪🧪🧪
 

@@ -82,7 +82,7 @@ from flcore.trainmodel.transformer import *
 
 from utils.result_utils import average_data
 from utils.mem_utils import MemReporter
-from utils.arg_utils import parse_bool
+from utils.arg_utils import parse_bool, validate_experiment_args
 
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
@@ -538,6 +538,7 @@ if __name__ == "__main__":
     parser.add_argument('-klw', "--kl_weight", type=float, default=0.0)
 
     args = parser.parse_args()
+    validate_experiment_args(args, parser)
 
     os.environ["CUDA_VISIBLE_DEVICES"] = args.device_id
 
