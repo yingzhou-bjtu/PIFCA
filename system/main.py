@@ -82,6 +82,7 @@ from flcore.trainmodel.transformer import *
 
 from utils.result_utils import average_data
 from utils.mem_utils import MemReporter
+from utils.arg_utils import parse_bool
 
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
@@ -439,7 +440,7 @@ if __name__ == "__main__":
     parser.add_argument('-lbs', "--batch_size", type=int, default=10)
     parser.add_argument('-lr', "--local_learning_rate", type=float, default=0.001,
                         help="Local learning rate")
-    parser.add_argument('-ld', "--learning_rate_decay", type=bool, default=False)
+    parser.add_argument('-ld', "--learning_rate_decay", type=parse_bool, default=False)
     parser.add_argument('-ldg', "--learning_rate_decay_gamma", type=float, default=0.99)
     parser.add_argument('-gr', "--global_rounds", type=int, default=100)
     parser.add_argument('-tc', "--top_cnt", type=int, default=100, 
@@ -449,7 +450,7 @@ if __name__ == "__main__":
     parser.add_argument('-algo', "--algorithm", type=str, default="FedAvg")
     parser.add_argument('-jr', "--join_ratio", type=float, default=1.0,
                         help="Ratio of clients per round")
-    parser.add_argument('-rjr', "--random_join_ratio", type=bool, default=False,
+    parser.add_argument('-rjr', "--random_join_ratio", type=parse_bool, default=False,
                         help="Random ratio of clients per round")
     parser.add_argument('-nc', "--num_clients", type=int, default=10,
                         help="Total number of clients")
@@ -464,8 +465,8 @@ if __name__ == "__main__":
                         help="Directory for saved server checkpoints")
     parser.add_argument("--results_dir", type=str, default="../results",
                         help="Directory for saved experiment result files")
-    parser.add_argument('-ab', "--auto_break", type=bool, default=False)
-    parser.add_argument('-dlg', "--dlg_eval", type=bool, default=False)
+    parser.add_argument('-ab', "--auto_break", type=parse_bool, default=False)
+    parser.add_argument('-dlg', "--dlg_eval", type=parse_bool, default=False)
     parser.add_argument('-dlgg', "--dlg_gap", type=int, default=100)
     parser.add_argument('-bnpc', "--batch_num_per_client", type=int, default=2)
     parser.add_argument('-nnc', "--num_new_clients", type=int, default=0)
@@ -481,7 +482,7 @@ if __name__ == "__main__":
                         help="The rate for slow clients when training locally")
     parser.add_argument('-ssr', "--send_slow_rate", type=float, default=0.0,
                         help="The rate for slow clients when sending global model")
-    parser.add_argument('-ts', "--time_select", type=bool, default=False,
+    parser.add_argument('-ts', "--time_select", type=parse_bool, default=False,
                         help="Whether to group and select clients at each round according to time cost")
     parser.add_argument('-tth', "--time_threthold", type=float, default=10000,
                         help="The threthold for droping slow clients")
@@ -520,7 +521,7 @@ if __name__ == "__main__":
     parser.add_argument('-glr', "--generator_learning_rate", type=float, default=0.005)
     parser.add_argument('-hd', "--hidden_dim", type=int, default=512)
     parser.add_argument('-se', "--server_epochs", type=int, default=1000)
-    parser.add_argument('-lf', "--localize_feature_extractor", type=bool, default=False)
+    parser.add_argument('-lf', "--localize_feature_extractor", type=parse_bool, default=False)
     # SCAFFOLD / FedGH
     parser.add_argument('-slr', "--server_learning_rate", type=float, default=1.0)
     # FedALA

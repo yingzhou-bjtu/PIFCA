@@ -126,6 +126,16 @@ python3 scripts/test_femnist_generator_validation.py
 python3 -O scripts/test_femnist_generator_validation.py
 ```
 
+Validate shared command-line argument parsers:
+
+```bash
+python3 scripts/test_arg_utils_validation.py
+```
+
+Boolean experiment options accept explicit values such as `true`/`false`,
+`1`/`0`, `yes`/`no`, and `on`/`off`; unrecognized strings are rejected by
+argparse.
+
 ## Running Experiments 🧪🧪🧪
 
 ### PIFCA
